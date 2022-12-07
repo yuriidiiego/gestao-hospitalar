@@ -1,0 +1,13 @@
+# Docker para o perfil de desenvolvimento
+version: "3.1"
+services:
+  postgres:
+    image: postgres:11.1
+    container_name: gestao-postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432

@@ -1,0 +1,964 @@
+openapi: 3.0.1
+info:
+  title: Gestão Hospitalar API
+  description: API para gestão de hospital
+  contact:
+    name: Yuri Nascimento
+    url: https://github.com/yuriidiiego
+    email: yuriidiiego@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+    description: Local server
+security:
+  - bearerAuth: []
+tags:
+  - name: Atendimento
+    description: Endpoints para gerenciamento de atendimentos
+  - name: Paciente
+    description: Endpoints para gerenciamento de pacientes
+  - name: Usuário
+    description:
+      "Endpoints para cadastar, logar e autenticar usuários para acessar outros endpoints"
+  - name: Médico
+    description: Endpoints para gerenciamento de médicos
+paths:
+  /pacientes/{id}:
+    get:
+      tags:
+        - Paciente
+      summary: Busca paciente por id
+      operationId: buscarPorId
+      parameters:
+        - name: id
+          in: path
+          description: Id do paciente
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        "200":
+          description: Paciente encontrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PacienteResponse"
+        "404":
+          description: Paciente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+        - Paciente
+      summary: Atualiza um paciente
+      operationId: atualizar
+      parameters:
+        - name: id
+          in: path
+          description: Id do paciente
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PacientePutRequest"
+        required: true
+      responses:
+        "200":
+          description: Paciente atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PacienteResponse"
+        "400":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Paciente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - Paciente
+      summary: Deleta um paciente
+      operationId: deletar
+      parameters:
+        - name: id
+          in: path
+          description: Id do paciente
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        "204":
+          description: Paciente deletado com sucesso
+        "404":
+          description: Paciente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      tags:
+        - Paciente
+      summary: Atualiza parcialmente um paciente
+      operationId: atualizarParcial
+      parameters:
+        - name: id
+          in: path
+          description: Id do paciente
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PacientePatchRequest"
+        required: true
+      responses:
+        "200":
+          description: Paciente atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PacienteResponse"
+        "400":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Paciente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /medicos/{id}:
+    get:
+      tags:
+        - Médico
+      summary: Busca médico por ID
+      description: Retorna um médico pelo ID
+      operationId: buscaMedicoPorId
+      parameters:
+        - name: id
+          in: path
+          description: ID do médico
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        "200":
+          description: Médico encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MedicoResponse"
+        "404":
+          description: Médico não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+        - Médico
+      summary: Atualiza médico
+      operationId: atualizar_1
+      parameters:
+        - name: id
+          in: path
+          description: ID do médico
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MedicoPutRequest"
+        required: true
+      responses:
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Médico atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MedicoResponse"
+        "404":
+          description: Médico não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - Médico
+      summary: Deleta um médico
+      operationId: deletar_1
+      parameters:
+        - name: id
+          in: path
+          description: ID do médico
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "204":
+          description: Médico deletado com sucesso
+        "404":
+          description: Médico não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      tags:
+        - Médico
+      summary: Atualiza parcialmente um médico
+      operationId: atualizarParcial_1
+      parameters:
+        - name: id
+          in: path
+          description: ID do médico
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MedicoPatchRequest"
+        required: true
+      responses:
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Médico atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MedicoResponse"
+        "404":
+          description: Médico não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /atendimentos/{id}:
+    put:
+      tags:
+        - Atendimento
+      summary: Atualiza um atendimento
+      operationId: atualizarAtendimento
+      parameters:
+        - name: id
+          in: path
+          description: ID do atendimento
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AtendimentoPutRequest"
+        required: true
+      responses:
+        "400":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Atendimento, paciente ou médico não encontrado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Atendimento atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AtendimentoResponse"
+  /usuarios/logout:
+    post:
+      tags:
+        - Usuário
+      summary: Desloga um usuário
+      description: Desloga um usuário limpando o cookie com o token JWT
+      operationId: logout
+      responses:
+        "200":
+          description: Usuário deslogado com sucesso
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/MensagemResponse"
+  /usuarios/login:
+    post:
+      tags:
+        - Usuário
+      summary: Loga um usuário
+      description: Loga um usuário e retorna um token JWT no cookie
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsuarioLoginRequest"
+        required: true
+      responses:
+        "401":
+          description: Não autorizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Usuário logado com sucesso
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/UsuariorInfoResponse"
+  /usuarios/cadastro:
+    post:
+      tags:
+        - Usuário
+      summary: Cadastra um usuário
+      description: Cadastra um usuário no sistema
+      operationId: cadastro
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsuarioCadastroRequest"
+        required: true
+      responses:
+        "200":
+          description: Usuário cadastrado com sucesso
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/MensagemResponse"
+        "400":
+          description: Email ou username já cadastrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /pacientes:
+    get:
+      tags:
+        - Paciente
+      summary: Busca todos os pacientes
+      operationId: buscarTodos
+      responses:
+        "200":
+          description: Pacientes encontrados com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PacienteResponse"
+    post:
+      tags:
+        - Paciente
+      summary: Cadastra um paciente
+      operationId: salvar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PacientePostRequest"
+        required: true
+      responses:
+        "400":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "201":
+          description: Paciente cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PacienteResponse"
+  /medicos:
+    get:
+      tags:
+        - Médico
+      summary: Busca todos os médicos
+      description: Retorna todos os médicos cadastrados
+      operationId: buscarTodos_1
+      responses:
+        "200":
+          description: Médicos encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MedicoResponse"
+    post:
+      tags:
+        - Médico
+      summary: Cadastra um médico
+      description: Cadastra um médico no sistema
+      operationId: salvarMedico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MedicoPostRequest"
+        required: true
+      responses:
+        "201":
+          description: Médico cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MedicoResponse"
+        "400":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /atendimentos:
+    post:
+      tags:
+        - Atendimento
+      summary: Cadastra um atendimento
+      operationId: salvarAtendimento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AtendimentoPostRequest"
+        required: true
+      responses:
+        "201":
+          description: Atendimento criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AtendimentoResponse"
+        "400":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Paciente ou médico não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /pacientes/pdf:
+    get:
+      tags:
+        - Paciente
+      summary: gera um pdf com todos os pacientes
+      operationId: gerarPdfPacientes
+      responses:
+        "500":
+          description: erro interno no servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: pdf gerado com sucesso
+          content:
+            application/pdf: {}
+  /pacientes/medicos/{idMedico}:
+    get:
+      tags:
+        - Paciente
+      summary: " Lista os pacientes de um determinado médico"
+      operationId: buscarPorMedico
+      parameters:
+        - name: idMedico
+          in: path
+          description: Id do médico
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        "200":
+          description: Pacientes encontrados com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PacienteResponse"
+        "404":
+          description: Médico não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /medicos/periodo:
+    get:
+      tags:
+        - Médico
+      summary: Lista médicos que trabalharam em um período de datas
+      description: Retorna médicos que trabalharam em um período de datas
+      operationId: buscarPorPeriodo
+      parameters:
+        - name: dataInicio
+          in: query
+          description: Data inicial do período
+          required: true
+          schema:
+            type: string
+            format: date
+          example: 01/01/2022
+        - name: dataFim
+          in: query
+          description: Data final do período
+          required: true
+          schema:
+            type: string
+            format: date
+          example: 31/12/2022
+      responses:
+        "200":
+          description: Médicos encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MedicoResponse"
+  /medicos/pacientes/{idPaciente}:
+    get:
+      tags:
+        - Médico
+      summary: Lista médicos que atenderam um determinado paciente
+      operationId: buscarPorPaciente
+      parameters:
+        - name: idPaciente
+          in: path
+          description: ID do paciente
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Médicos encontrados com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MedicoResponse"
+        "404":
+          description: Paciente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /atendimentos/periodo:
+    get:
+      tags:
+        - Atendimento
+      summary: Busca atendimentos por data
+      operationId: buscarPorPeriodo_1
+      parameters:
+        - name: dataInicio
+          in: query
+          description: "Data inicial do período. Formato aceito: dd/MM/yyyy"
+          required: true
+          schema:
+            type: string
+            format: date
+          example: 01/01/2022
+        - name: dataFim
+          in: query
+          description: "Data final do período. Formato aceito: dd/MM/yyyy"
+          required: true
+          schema:
+            type: string
+            format: date
+          example: 31/12/2022
+      responses:
+        "200":
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AtendimentoResponse"
+        "400":
+          description: "Formato de data inválido. Formato aceito: dd/MM/yyyy"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    PacientePutRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        cpf:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+    PacienteResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        cpf:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        sexo:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        statuscode:
+          type: integer
+          format: int32
+        timestamp:
+          type: string
+          format: date-time
+        erro:
+          type: string
+    MedicoPutRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        cpf:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        crm:
+          type: string
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+    MedicoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        cpf:
+          type: string
+        crm:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+    AtendimentoPutRequest:
+      type: object
+      properties:
+        dataAtendimento:
+          type: string
+          format: date
+        observacao:
+          type: string
+    AtendimentoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dataAtendimento:
+          type: string
+          format: date
+        nomeMedico:
+          type: string
+        nomePaciente:
+          type: string
+        observacao:
+          type: string
+    MensagemResponse:
+      type: object
+      properties:
+        mensagem:
+          type: string
+    UsuarioLoginRequest:
+      required:
+        - nomeUsuario
+        - senha
+      type: object
+      properties:
+        nomeUsuario:
+          type: string
+          description: Nome de usuário
+          example: admin
+        senha:
+          type: string
+          description: Senha do usuário
+          example: admin123
+    UsuariorInfoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        valueCookie:
+          type: string
+    UsuarioCadastroRequest:
+      required:
+        - email
+        - nomeUsuario
+        - password
+      type: object
+      properties:
+        nomeUsuario:
+          maxLength: 20
+          minLength: 3
+          type: string
+          description: Nome de usuário
+          example: admin
+        email:
+          type: string
+          description: Email do usuário
+          example: admin@example.com
+        perfil:
+          uniqueItems: true
+          type: array
+          description: Permissões do usuário
+          example:
+            - admin
+          items:
+            type: string
+            description: Permissões do usuário
+            example: '["admin"]'
+        password:
+          maxLength: 20
+          minLength: 6
+          type: string
+          description: Senha do usuário
+          example: admin123
+    PacientePostRequest:
+      required:
+        - cpf
+        - dataNascimento
+        - nome
+        - sexo
+      type: object
+      properties:
+        nome:
+          type: string
+          description: Nome do paciente
+          example: João da Silva
+        cpf:
+          type: string
+          description: CPF do paciente
+          example: "70989098230"
+        dataNascimento:
+          pattern: dd/MM/yyyy
+          type: string
+          description: Data de nascimento do paciente
+          example: 02/02/1980
+        sexo:
+          type: string
+          description: Sexo do paciente
+          example: MASCULINO
+          enum:
+            - MASCULINO
+            - FEMININO
+    MedicoPostRequest:
+      required:
+        - cpf
+        - crm
+        - dataNascimento
+        - nome
+        - sexo
+      type: object
+      properties:
+        nome:
+          type: string
+          description: Nome do médico
+          example: Doutor House
+        cpf:
+          type: string
+          description: CPF do médico
+          example: "70989098230"
+        dataNascimento:
+          pattern: dd/MM/yyyy
+          type: string
+          description: Data de nascimento do médico
+          example: 02/02/1980
+        crm:
+          pattern: "^[\\d]{6}\\/[A-Z]{2}$"
+          type: string
+          description: CRM do médico
+          example: 123456/SP
+        sexo:
+          type: string
+          description: Sexo do médico
+          example: MASCULINO
+          enum:
+            - MASCULINO
+            - FEMININO
+    AtendimentoPostRequest:
+      required:
+        - dataAtendimento
+        - idMedico
+        - idPaciente
+      type: object
+      properties:
+        dataAtendimento:
+          type: string
+          description: Data do atendimento
+          example: 02/02/2022
+        idMedico:
+          type: integer
+          description: Id do médico
+          format: int64
+          example: 1
+        idPaciente:
+          type: integer
+          description: Id do paciente
+          format: int64
+          example: 1
+        observacao:
+          type: string
+          description: Observação do atendimento
+          example: Paciente com dor de cabeça
+    PacientePatchRequest:
+      required:
+        - cpf
+        - dataNascimento
+        - nome
+        - sexo
+      type: object
+      properties:
+        nome:
+          type: string
+          description: Nome do paciente
+          example: João da Silva
+        cpf:
+          type: string
+          description: CPF do paciente
+          example: "70989098230"
+        dataNascimento:
+          pattern: dd/MM/yyyy
+          type: string
+          description: Data de nascimento do paciente
+          example: 02/02/1980
+        sexo:
+          type: string
+          description: Sexo do paciente
+          example: MASCULINO
+          enum:
+            - MASCULINO
+            - FEMININO
+    MedicoPatchRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        cpf:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        crm:
+          type: string
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
