@@ -27,7 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
-public class ErrodeValidacaoHandler extends ResponseEntityExceptionHandler {
+public class ErroValidacaoHandler extends ResponseEntityExceptionHandler {
   @Autowired
   private MessageSource messageSource;
 
